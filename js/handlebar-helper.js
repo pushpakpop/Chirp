@@ -1,5 +1,6 @@
 // JavaScript Document for handlebar helper
 
+// helper function for handlebars
 (function (root, factory) {
 if (typeof exports === 'object') {
 	// Node. Does not work with strict CommonJS, but
@@ -24,18 +25,18 @@ if (typeof exports === 'object') {
 	});
 
 	// handlebar helper for showing tweet time using moment.js
-	Handlebars.registerHelper('get_date_time', function(created_at) {
-		var rtn_date = moment(created_at).fromNow();
-		if(rtn_date.indexOf("days") < 0)
-			return rtn_date;
+	Handlebars.registerHelper('getDateTime', function(createdAt) {
+		var rtnDate = moment(createdAt).fromNow();
+		if(rtnDate.indexOf("days") < 0)
+			return rtnDate;
 		else 
-			return moment(created_at).fromNow();
+			return moment(createdAt).fromNow();
 	});
 
 	//handlebar helper for making clickabe links,hashtags,etc
 	Handlebars.registerHelper('twityfy', function(text) {
-		var chn_text = parseTwit(text);
-		return new Handlebars.SafeString( chn_text );
+		var tweetText = Chirp.parseTwit(text).replace(/<a/gi, "<a target='_blank'"); //add target="_blank" to all anchors.
+		return new Handlebars.SafeString(tweetText);
 	
 	});
 

@@ -24,7 +24,7 @@ if($request == "home")
 
 if($request=="followers")
 {
-	$username = $_POST['username'];
+	$username = $_POST['userName'];
 	//get the latest 10 tweets of the current user from his timline
 	$tweets = $twitteroauth->get("https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&screen_name=".$username."&count=15");
 }

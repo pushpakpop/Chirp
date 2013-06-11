@@ -4,7 +4,7 @@ session_start();
 require_once('lib/twitteroauth/twitteroauth.php');
 require_once('config.php');
 
-$status_id = $_POST['status_id'];
+$status_id = $_POST['statusId'];
 $action = $_POST['action'];
 
 if(!empty($status_id) && !empty($action))
