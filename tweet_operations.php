@@ -80,6 +80,14 @@ if(!empty($status_id) && !empty($action))
 			echo 'true';		
 		}
 		
+		//update status if request is "update"
+		if($action == "update")
+		{
+			$status = urlencode($_POST['tweet']);
+			$update_status = $twitteroauth->POST("https://api.twitter.com/1.1/statuses/update.json?status=".$status);
+			if($update_status->user->id != "") // if status is updated
+				echo "true";	
+		}
 		
 	}
 	

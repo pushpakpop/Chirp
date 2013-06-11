@@ -44,6 +44,13 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
                             
                         </div>-->
                         <ul class="tweet-user-list">
+                        <li>
+                        	<a href="javascript:void(0)" class="chirp-user">
+                        	<span class="user-img"><img src="<?php echo $user_info->profile_image_url?>" width="40" height="40" alt="profile image"></span>
+                            <span class="user-title"><?php echo $user_info->name?></span>
+                            <p class="user-desc"><label id="home">Home</label><label id="my_tweets" name="<?php echo $user_info->screen_name?>">My Tweets</label><label id="logout">logout</label></p>
+                            </a>
+                        </li>
                         <?php foreach ($friend_list->users as $friends) { ?>
                             <li>
                                 <a href="javascript:void(0)" id="<?php echo $friends->screen_name?>" class="followers" >
@@ -98,7 +105,7 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
                 
 				<div class="tweet-south">
 					<textarea cols="20" rows="1" id="status" placeholder="update your status on twitter"></textarea>
-					<button onClick="postTweet()">Update</button>
+					<button id="update-status">Update</button>
                     <button id="download" title="download current tweets">Download</button>
 				</div>
 			</div>
