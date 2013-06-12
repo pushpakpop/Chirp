@@ -71,7 +71,7 @@ var Chirp = (function(self) {
 				data: {statusId : id, action : "delete"},
 				success: function(data)
 				{
-					if(data.value)
+					if(data.status)
 					{
 						$('#'+id).remove();
 						ChirpUI.showPopup("Status deleted succesfully");
@@ -99,7 +99,7 @@ var Chirp = (function(self) {
 			data: {statusId : id, action : "retweet"},
 			success: function(data)
 			{
-			 if(data.value)
+			 if(data.status)
 			 {
 				ChirpUI.showPopup('Status retweeted');
 				ChirpUI.swapRetweetLink('retweet',id);
@@ -126,7 +126,7 @@ var Chirp = (function(self) {
 		   url: 'tweet_operations.php',
 		   data: {statusId : id, action : "undo_retweet"},
 			 success: function(data) {
-				 if(data.value)
+				 if(data.status)
 				 {
 					ChirpUI.swapRetweetLink('retweeted',id);
 					ChirpUI.showPopup("Undo retweet succesfull");
@@ -151,7 +151,7 @@ var Chirp = (function(self) {
 		   data: {statusId : id, action : "favorite"},
 			 success: function(data)
 			 {
-				 if(data.value)
+				 if(data.status)
 				 {
 					
 					ChirpUI.showPopup('Status favorited');
@@ -179,7 +179,7 @@ var Chirp = (function(self) {
 		   data: {statusId : id, action : "unfavorite"},
 			 success: function(data)
 			 {
-				 if(data.value)
+				 if(data.status)
 				 {
 					ChirpUI.showPopup('undo favorite succesfully');
 					ChirpUI.swapFavoriteLink('favorited',id);
@@ -206,7 +206,7 @@ var Chirp = (function(self) {
 			   data: {tweet : status, statusId : 1, action : 'update'},
 				 success: function(data)
 				 {
-					 if(data.value)
+					 if(data.status)
 					 {
 						 // get the home timeline
 						 Chirp.getHomeTimeline();
@@ -239,7 +239,7 @@ var Chirp = (function(self) {
 		   data: {'html': content},
 			 success: function(data)
 			 {
-				 if(data.value)
+				 if(data.status)
 				 {
 					ChirpUI.hideLoader();//hide the loading proces
 					window.location='tweets.pdf'; //down the pdf file
