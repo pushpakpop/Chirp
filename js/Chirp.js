@@ -1,91 +1,84 @@
 //Chirp class. contains methods related to tweet 
-var Chirp = (function(self){
+var Chirp = (function(self) {
 
-	self.getHomeTimeline = function() { // the user's home timeline
-		
-		// get the home timeline
+	// the user's home timeline
+	self.getHomeTimeline = function() { 
 		$.ajax({
-			url: "get_tweets.php",
-			data: {type : 'home'},
-			type: 'POST',
-			success: function(data){
-				//fill the template with data from the json object
-				var tweets = data;
-				var html = tweetTemplate({ data : tweets});
-				tweetThread.html(html);
-				$('.tweet a').attr('target','_blank');          
-				$("li a").removeClass("active");
-				ChirpUI.hideLoader(); // hide animation on success
-				
-				},
-			error: function(){
-				ChirpUI.hideLoader(); // hide animation on success
-				ChirpUI.showPopup("Some error occured while getting tweets. Please try again.");
-				},
-			beforeSend: function() {
-				ChirpUI.showLoader(); // hide animation on success
-			}
-			
-			});
-			        
-	};
-	
-	self.getUserTimeline = function(name) { //get follower's timeline
-		
-		$.ajax({
-			url: "get_tweets.php",
-			data: {userName:name,type : 'followers'},
-			type: 'POST',
-			success: function(data){
-				//fill the template with data from the json object
-				var tweets = data;
-				var html = tweetTemplate({ data : tweets});
-				tweetThread.html(html);
-				$("li a").removeClass("active");
-				$('#'+name).addClass('active');
-				ChirpUI.hideLoader(); // hide animation on success
-				},
-			error: function(){
-				ChirpUI.hideLoader(); // hide animation on success
-				 ChirpUI.showPopup("Some error occured while getting tweets. Please try again.");
-				},
-			beforeSend: function() {
-				ChirpUI.showLoader(); // hide animation on success
-			}
-			
-			});
-
-	};
-	
-	self.deleteTweet = function(id) { //delete current user's tweet
-	
-		$.ajax({
-			type: 'POST',
-			url: 'tweet_operations.php',
-			data: {statusId : id, action : "delete"},
-			success: function(data)
-			{
-				if(data=="true")
-				{
-					$('#'+delete_id).remove();
-					ChirpUI.showPopup("Status deleted succesfully");
+				url: "get_tweets.php",
+				data: {type : 'home'},
+				type: 'POST',
+				success: function(data){
+					//fill the template with data from the json object
+					var tweets = data;
+					var html = tweetTemplate({ data : tweets});
+					tweetThread.html(html);
+					$('.tweet a').attr('target','_blank');          
+					$("li a").removeClass("active");
+					ChirpUI.hideLoader(); // hide animation on success
+					
+					},
+				error: function() {
+					ChirpUI.hideLoader(); // hide animation on success
+					ChirpUI.showPopup("Some error occured while getting tweets. Please try again.");
+					},
+				beforeSend: function() {
+					ChirpUI.showLoader(); // hide animation on success
 				}
-				else
+			});
+	};
+	
+	//get follower's timeline
+	self.getUserTimeline = function(name) { 
+		$.ajax({
+				url: "get_tweets.php",
+				data: {userName:name,type : 'followers'},
+				type: 'POST',
+				success: function(data) {
+					//fill the template with data from the json object
+					var tweets = data;
+					var html = tweetTemplate({ data : tweets});
+					tweetThread.html(html);
+					$("li a").removeClass("active");
+					$('#'+name).addClass('active');
+					ChirpUI.hideLoader(); // hide animation on success
+					},
+				error: function (){
+					ChirpUI.hideLoader(); // hide animation on success
+					 ChirpUI.showPopup("Some error occured while getting tweets. Please try again.");
+					},
+				beforeSend: function() {
+					ChirpUI.showLoader(); // hide animation on success
+				}
+			});
+	};
+	
+	//delete current user's tweet
+	self.deleteTweet = function(id) {
+		$.ajax({
+				type: 'POST',
+				url: 'tweet_operations.php',
+				data: {statusId : id, action : "delete"},
+				success: function(data)
+				{
+					if(data=="true")
+					{
+						$('#'+delete_id).remove();
+						ChirpUI.showPopup("Status deleted succesfully");
+					}
+					else
+					{
+						ChirpUI.showPopup("Some error occured while deleting status. Please try again.");
+					}
+				},
+				error: function()
 				{
 					ChirpUI.showPopup("Some error occured while deleting status. Please try again.");
 				}
-			},
-			error: function()
-			{
-				ChirpUI.showPopup("Some error occured while deleting status. Please try again.");
-			}
-
-		   });
-	
+			   });
 	};
 	
-	self.reTweet = function(id) { //retweet a status
-	
+	//retweet a status
+	self.reTweet = function(id) { 
 		$.ajax({
 			type: 'POST',
 			url: 'tweet_operations.php',
@@ -111,13 +104,11 @@ var Chirp = (function(self){
 			{
 				ChirpUI.showPopup("Some error occured while retweeting. Please try again.");
 			}
-
 	   });	
-	   
 	};
 	
-	self.undoRetweet = function(id) { //undo retweet of a status
-		
+	//undo retweet of a status
+	self.undoRetweet = function(id) { 
 		$.ajax({
 		   type: 'POST',
 		   url: 'tweet_operations.php',
@@ -141,8 +132,8 @@ var Chirp = (function(self){
 		   });	
 	};
 	
-	self.favoriteTweet = function(id) { //favorite a tweet
-		
+	//favorite a tweet
+	self.favoriteTweet = function(id) { 
 		$.ajax({
 		   type: 'POST',
 		   url: 'tweet_operations.php',
@@ -166,12 +157,11 @@ var Chirp = (function(self){
 			 error: function() {
 				 ChirpUI.showPopup("Some error occured while favoriting the tweet. Please try again.");
 			 }
-
 		   });	
 	};
 	
-	self.undoFavorite = function(id) { //unfavorite a tweet
-		
+	//unfavorite a tweet
+	self.undoFavorite = function(id) {
 		$.ajax({
 		   type: 'POST',
 		   url: 'tweet_operations.php',
@@ -198,8 +188,8 @@ var Chirp = (function(self){
 		});
 	};
 	
-	self.updateStatus = function(status) { // update status of the user
-		
+	// update status of the user
+	self.updateStatus = function(status) {
 		$.ajax({
 			   type: 'POST',
 			   url: 'tweet_operations.php',
@@ -210,7 +200,6 @@ var Chirp = (function(self){
 					 {
 						 // get the home timeline
 						 Chirp.getHomeTimeline();
-						 
 					 }
 					 else
 					 {
@@ -228,8 +217,8 @@ var Chirp = (function(self){
 			 });	
 	};
 	
-	self.downloadTweets = function() { //download tweets
-		
+	//download tweets
+	self.downloadTweets = function() {
 		var content = $('#tweets').html();
 		$.ajax({
 		   type: 'POST',
@@ -260,19 +249,18 @@ var Chirp = (function(self){
 	
 	// convert hash tags, links and usernames clickabel
 	self.parseTwit = function(str) {
-			
 			var data = str;
 			//parse URL
-			var str = data.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g,function(s){
+			var str = data.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g,function(s) {
 				return s.link(s);
 			});
 			//parse user_name
-			str = str.replace(/[@]+[A-Za-z0-9_]+/g,function(s){
+			str = str.replace(/[@]+[A-Za-z0-9_]+/g,function(s) {
 				var userName = s.replace('@','');
 				return s.link("http://twitter.com/"+userName);
 			});
 			//parse hashtag
-			str = str.replace(/[#]+[A-Za-z0-9_]+/g,function(s){
+			str = str.replace(/[#]+[A-Za-z0-9_]+/g,function(s) {
 				var hashTag = s.replace('#','');
 				return s.link("http://search.twitter.com/search?q="+hashTag);
 			});

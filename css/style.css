@@ -485,6 +485,7 @@ a#logout:hover {
 }	
 #count {
 	text-align: right;
+	margin-top: 3px;
 	}
 #count span{
 	color: #9e9e9e;

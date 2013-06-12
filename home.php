@@ -48,15 +48,19 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
                             
                         </div>
                         <ul class="tweet-user-list">
-                        <?php foreach ($friend_list->users as $friends) { ?>
-                            <li>
-                                <a href="javascript:void(0)" id="<?php echo $friends->screen_name?>" class="followers" >
-                                    <span class="user-img"><img src="<?php echo $friends->profile_image_url?>" alt="profile image" width="40" height="40"></span>
-                                    <span class="user-title"><?php echo $friends->name?></span>
-                                    <p class="user-desc">@<?php echo $friends->screen_name?></p>
-                                </a>
-                            </li>
-                        <?php } ?>
+                        <?php 
+							if($friend_list->users)
+							{
+								foreach ($friend_list->users as $friends) { ?>
+								<li>
+									<a href="javascript:void(0)" id="<?php echo $friends->screen_name?>" class="followers" >
+										<span class="user-img"><img src="<?php echo $friends->profile_image_url?>" alt="profile image" width="40" height="40"></span>
+										<span class="user-title"><?php echo $friends->name?></span>
+										<p class="user-desc">@<?php echo $friends->screen_name?></p>
+									</a>
+								</li>
+                        <?php }
+							} ?>
                             
                         </ul>
                        	<div class="search-follower">
@@ -117,9 +121,9 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
 	</div><!--//#wrapper-->
 
 <!--modal for retweeting-->
-<div id="retweet-modal" class="modal hidden fade" data-backdrop="static" tabinde="-1">
+<div id="retweet-modal" class="modal hidden fade" data-backdrop="static">
 	<div class="modal-header">
-    	<h3 id="myModalLabel" class="modal-title">Retweet this to your follolwers?</h3>
+    	<h3 class="modal-title">Retweet this to your follolwers?</h3>
     </div><!--//.modal-header-->
     <div class="modal-body">
     	
@@ -133,7 +137,7 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
 <!--modal for retweeting-->
 <div id="delete-modal" class="modal hidden fade" data-backdrop="static">
 	<div class="modal-header">
-    	<h3 id="myModalLabel" class="modal-title">Are you sure you want to delete this tweet?</h3>
+    	<h3 class="modal-title">Are you sure you want to delete this tweet?</h3>
     </div><!--//.modal-header-->
     <div class="modal-body">
     	
