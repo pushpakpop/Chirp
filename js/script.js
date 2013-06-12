@@ -46,7 +46,6 @@ deleteLink.live('click',function() {
 var deleteBtn = $('#btn-delete'); // delete button on the delete-modal
 deleteBtn.click(function() {
 	setTimeout(function(){ChirpUI.deleteModal.modal('hide');},1500);
-	console.log(ChirpUI.deleteId);
 	Chirp.deleteTweet(ChirpUI.deleteId);
 			
 });
