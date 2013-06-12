@@ -1,6 +1,13 @@
 // Main js, contains event handlers
 (function () {
 
+    var statusEl = $('#status'),
+        countEl = $('#count span'),
+        statusCountEl = $('#status'),
+        filterEl = $("#filter"),
+        userTweetEl = $(".tweet-user-list li");
+
+
     //get users home timeline when page loads
     Chirp.getHomeTimeline();
 
@@ -58,8 +65,7 @@
 
     //undo retweet of a retweeted status
     $('.retweeted').live('click', function () {
-        var unRetweetLink = $(this);
-        var unRetweetId = unRetweetLink.closest('.tweet').attr('id');
+        var unRetweetId = $(this).closest('.tweet').attr('id');
         Chirp.undoRetweet(unRetweetId);
     });
 
@@ -73,14 +79,12 @@
 
     // unfavorite a tweet
     $('.favorited').live('click', function () {
-        var currentButtonEl = $(this);
-        var favoritedId = currentButtonEl.closest('.tweet').attr('id');
+        var favoritedId = $(this).closest('.tweet').attr('id');
         Chirp.undoFavorite(favoritedId);
     });
 
 
     //post tweets to the current user's timeline
-    var statusEl = $('#status');
     $("#update-status").click(function () {
         if (statusEl.val() === "") {
             ChirpUI.showPopup("Please provide a status message");
@@ -97,8 +101,6 @@
     });
 
     //update remaining characters count as user types
-    var countEl = $('#count span');
-    var statusCountEl = $('#status');
     statusCountEl.on('keyup', function () {
         countEl.text(140 - statusCountEl.val().length);
 
@@ -112,8 +114,6 @@
     });
 
     //filter followers as the user types in the search box
-    var filterEl = $("#filter");
-    var userTweetEl = $(".tweet-user-list li");
     filterEl.on("keyup", function () {
         var filter = $(this).val();
         userTweetEl.each(function () {

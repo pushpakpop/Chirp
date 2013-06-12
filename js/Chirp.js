@@ -51,7 +51,7 @@ var Chirp = (function (self) {
             type: 'POST',
             success: function (data) {
 
-                if (data == "unauthorized") {
+                if (data === "unauthorized") {
                     ChirpUI.hideLoader(); // hide animation and show message if user is not authorized to view the required timeline
                     ChirpUI.showPopup("Not authorized to view this user's timeline");
                 } else {
@@ -267,17 +267,16 @@ var Chirp = (function (self) {
                 ChirpUI.showLoader(); // hide animation on success
             }
         });
-    }
+    };
 
     /**
      * Converts text link,hashtags, and usernames to links
      * @param tweet text
      * returns the converted tweet
      */
-    self.parseTweet = function (str) {
-        var data = str;
+    self.parseTweet = function (tweet) {
         //parse URL
-        var str = data.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function (s) {
+        var str = tweet.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function (s) {
             return s.link(s);
         });
         //parse user_name
@@ -291,7 +290,7 @@ var Chirp = (function (self) {
             return s.link("http://twitter.com/search?q=" + hashTag);
         });
         return str;
-    }
+    };
 
     return self;
 })(Chirp || {});
