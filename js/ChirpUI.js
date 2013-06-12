@@ -107,9 +107,9 @@ var ChirpUI = (function(self){
 	 
 	 self.retweetModal = $('#retweet-modal');
 	 self.showRetweetModal = function(obj) {
-			
-			self.retweetId = obj.closest('.tweet').attr('id');
-			var tweet = $(this).closest('.tweet').html();
+			var tweetId = obj
+			self.retweetId = tweetId.closest('.tweet').attr('id');
+			var tweet = obj.closest('.tweet').html();
 			self.retweetModal.children('.modal-body').html(tweet);
 			self.retweetModal.modal('show');
 	 };
