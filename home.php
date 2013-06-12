@@ -47,6 +47,9 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
                                 <p class="user-desc"><a href="javascript:void(0)" id="home">Home</a><a href="javascript:void(0)" id="my-tweets">My Tweets</a><a href="clearsession.php" id="logout">Logout</a></p>
                             
                         </div>
+                        <div class="search-follower">
+                            <input type="text" placeholder="Search followers" id="filter">
+                        </div><!--//.search-follower-->
                         <ul class="tweet-user-list">
                         <?php 
 							if($friend_list->users)
@@ -63,9 +66,6 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
 							} ?>
                             
                         </ul>
-                       	<div class="search-follower">
-                            <input type="text" placeholder="Search followers" id="filter">
-                        </div><!--//.search-follower-->
                     </div><!--//.user-details-->
 					<div class="tweet-thread">
                     
@@ -111,7 +111,7 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
 				</div><!--//.tweet-north-->
                 
 				<div class="tweet-south" >
-					<textarea cols="20" rows="1" id="status" placeholder="update your status on twitter"></textarea>
+					<textarea cols="20" rows="1" id="status" placeholder="Tweet something..... max 140 characters" maxlength="140" ></textarea>
 					<button id="update-status"><img src="images/tweet.png" alt="tweet">Tweet</button>
                     <button id="download" title="download current tweets"><img src="images/download.png" alt="download">Download</button>
                     <p id="count"><span>140</span></p>
@@ -129,7 +129,7 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
     	
     </div><!--//.modal-body-->
     <div class="modal-footer">
-        <button type="button" class="">Retweet</button>
+        <button type="button" id="btn-retweet">Retweet</button>
         <button type="button" data-dismiss="modal" class="cancel">Cancel</button>
     </div><!--//.modal-footer-->
 </div><!--//#retweet-modal-->
@@ -143,7 +143,7 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
     	
     </div><!--//.modal-body-->
     <div class="modal-footer">
-        <button type="button" class="">Delete</button>
+        <button type="button" id="btn-delete">Delete</button>
         <button type="button" data-dismiss="modal" class="cancel">Cancel</button>
     </div><!--//.modal-footer-->
 </div><!--//#delete-modal-->

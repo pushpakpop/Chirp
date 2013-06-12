@@ -16,7 +16,9 @@ if (typeof exports === 'object') {
 }
 }(this, function (Handlebars) {
 
-	//helper function for comaprision
+	/**
+	 * compares the specified two walues for equality. used to check for the current user's tweet
+	 */
 	 Handlebars.registerHelper('if_eq', function(context, options) {
 		if (context == options.hash.compare)
 			return options.fn(this);
@@ -24,7 +26,10 @@ if (typeof exports === 'object') {
 			return options.inverse(this);
 	});
 
-	// handlebar helper for showing tweet time using moment.js
+	/**
+	 * Converts the twitter's timestamp of the tweet to more userfreindly format.
+	 *@param timestamp to be converted
+	 */
 	Handlebars.registerHelper('getDateTime', function(createdAt) {
 		var rtnDate = moment(createdAt).fromNow();
 		if(rtnDate.indexOf("days") < 0)
@@ -34,8 +39,13 @@ if (typeof exports === 'object') {
 	});
 
 	//handlebar helper for making clickabe links,hashtags,etc
+	/**
+	 * Converts the text links,hastags and usernames to clickable ones.
+	 *@param tweet/text to be converted
+	 */
 	Handlebars.registerHelper('twityfy', function(text) {
-		var tweetText = Chirp.parseTwit(text).replace(/<a/gi, "<a target='_blank'"); //add target="_blank" to all anchors.
+		var tweetText = Chirp.parseTweet(text);
+		tweetText.replace(/<a/gi, "<a target='_blank'"); //add target="_blank" to all anchors.
 		return new Handlebars.SafeString(tweetText);
 	
 	});

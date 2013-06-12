@@ -6,12 +6,13 @@ require_once('config.php');
 
 $status_id = $_POST['statusId'];
 $action = $_POST['action'];
-
+$response = array( 'status' => 'false' );
 if(!empty($status_id) && !empty($action))
 {
 	if (empty($_SESSION['access_token']) || empty($_SESSION['access_token']['oauth_token']) || empty($_SESSION['access_token']['oauth_token_secret']))
 	{
-		echo 'error';
+			
+		echo json_encode($response);
 	}
 	else
 	{
@@ -29,7 +30,14 @@ if(!empty($status_id) && !empty($action))
 			$delete_status = $twitteroauth->POST("https://api.twitter.com/1.1/statuses/destroy/".$status_id.".json");
 		
 			if($delete_status->id_str !='') // if status is deleted succesfully;
-			echo 'true';		
+			{
+				$response['status'] = 'true';
+				echo json_encode($response);
+			}
+			else
+			{
+				echo json_encode($response);
+			}
 		}
 		
 		//if action is retweet
@@ -41,7 +49,14 @@ if(!empty($status_id) && !empty($action))
 			$retweet_id = $retweet->id_str; // get the retweet id of the status
 		
 			if($retweet_id!='') // if retweet is successfully done, pass the retweet id;
-			echo 'true';		
+			{
+				$response['status'] = 'true';
+				echo json_encode($response);
+			}
+			else
+			{
+				echo json_encode($response);
+			}		
 		}
 		
 		//if action is undo retweet
@@ -57,7 +72,14 @@ if(!empty($status_id) && !empty($action))
 			$undo_retweet = $twitteroauth->POST("https://api.twitter.com/1.1/statuses/destroy/".$rid.".json");
 		
 			if($undo_retweet->id_str !='') // if undo of retweet is succesfully;
-			echo 'true';		
+			{
+				$response['status'] = 'true';
+				echo json_encode($response);
+			}
+			else
+			{
+				echo json_encode($response);
+			}		
 		}
 		
 		//if action is undo retweet
@@ -67,7 +89,14 @@ if(!empty($status_id) && !empty($action))
 			$favorite = $twitteroauth->POST("https://api.twitter.com/1.1/favorites/create.json?id=".$status_id);
 		
 			if($favorite->id_str !='') // if status is favorited succesfully;
-			echo 'true';		
+			{
+				$response['status'] = 'true';
+				echo json_encode($response);
+			}
+			else
+			{
+				echo json_encode($response);
+			}		
 		}
 		
 		//if action is undo retweet
@@ -77,7 +106,14 @@ if(!empty($status_id) && !empty($action))
 			$unfavorite = $twitteroauth->POST("https://api.twitter.com/1.1/favorites/destroy.json?id=".$status_id);
 		
 			if($unfavorite->id_str !='') // if status is unfavorited succesfully;
-			echo 'true';		
+			{
+				$response['status'] = 'true';
+				echo json_encode($response);
+			}
+			else
+			{
+				echo json_encode($response);
+			}		
 		}
 		
 		//update status if request is "update"
@@ -86,7 +122,14 @@ if(!empty($status_id) && !empty($action))
 			$status = urlencode($_POST['tweet']);
 			$update_status = $twitteroauth->POST("https://api.twitter.com/1.1/statuses/update.json?status=".$status);
 			if($update_status->user->id != "") // if status is updated
-				echo "true";	
+				{
+				$response['status'] = 'true';
+				echo json_encode($response);
+			}
+			else
+			{
+				echo json_encode($response);
+			}	
 		}
 		
 	}
@@ -94,6 +137,6 @@ if(!empty($status_id) && !empty($action))
 }
 else
 {
-	echo "false";	
+	echo json_encode($response);
 }
 ?>

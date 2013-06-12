@@ -1,7 +1,17 @@
-//Chirp class. contains methods related to tweet 
+/**
+ * Chirp v1.0. Tweets related features
+ * 
+ * @author Pushpak Patel <https://github.com/pushpakpop>
+ * License: GPLv3
+ * 
+ */
 var Chirp = (function(self) {
-
-	// the user's home timeline
+	
+	self.tweetTemplate = Handlebars.compile($("#tweet-template").html());
+	self.tweetThread = $('#tweets');
+	/**
+	 * Retrives the Home Timeline of the authenticated user.
+	 */
 	self.getHomeTimeline = function() { 
 		$.ajax({
 				url: "get_tweets.php",
@@ -9,10 +19,7 @@ var Chirp = (function(self) {
 				type: 'POST',
 				success: function(data){
 					//fill the template with data from the json object
-					var tweets = data;
-					var html = tweetTemplate({ data : tweets});
-					tweetThread.html(html);
-					$('.tweet a').attr('target','_blank');          
+					ChirpUI.loadTweets(data);          
 					$("li a").removeClass("active");
 					ChirpUI.hideLoader(); // hide animation on success
 					
@@ -27,7 +34,10 @@ var Chirp = (function(self) {
 			});
 	};
 	
-	//get follower's timeline
+	/**
+	 * Retrives the User Timeline of the specified/authenticated user.
+	 * @param name of the user
+	 */
 	self.getUserTimeline = function(name) { 
 		$.ajax({
 				url: "get_tweets.php",
@@ -35,9 +45,7 @@ var Chirp = (function(self) {
 				type: 'POST',
 				success: function(data) {
 					//fill the template with data from the json object
-					var tweets = data;
-					var html = tweetTemplate({ data : tweets});
-					tweetThread.html(html);
+					ChirpUI.loadTweets(data);
 					$("li a").removeClass("active");
 					$('#'+name).addClass('active');
 					ChirpUI.hideLoader(); // hide animation on success
@@ -52,7 +60,10 @@ var Chirp = (function(self) {
 			});
 	};
 	
-	//delete current user's tweet
+	/**
+	 * Deletes the authenticated user's specified tweet.
+	 * @param id of the tweet to be deleted
+	 */
 	self.deleteTweet = function(id) {
 		$.ajax({
 				type: 'POST',
@@ -60,9 +71,9 @@ var Chirp = (function(self) {
 				data: {statusId : id, action : "delete"},
 				success: function(data)
 				{
-					if(data=="true")
+					if(data.value)
 					{
-						$('#'+delete_id).remove();
+						$('#'+id).remove();
 						ChirpUI.showPopup("Status deleted succesfully");
 					}
 					else
@@ -77,7 +88,10 @@ var Chirp = (function(self) {
 			   });
 	};
 	
-	//retweet a status
+	/**
+	 * Retweets the specified tweet.
+	 * @param id of the tweet to be retweeted
+	 */
 	self.reTweet = function(id) { 
 		$.ajax({
 			type: 'POST',
@@ -85,15 +99,10 @@ var Chirp = (function(self) {
 			data: {statusId : id, action : "retweet"},
 			success: function(data)
 			{
-			 if(data =="true")
+			 if(data.value)
 			 {
 				ChirpUI.showPopup('Status retweeted');
-				var currentTweet = $('#'+id+' .retweet');
-				currentTweet.removeClass('retweet');
-				currentTweet.addClass('retweeted');
-				currentTweet.text('Retweeted');
-				currentTweet.attr('title','Undo Retweet');
-				currentTweet.attr('name',data);
+				ChirpUI.swapRetweetLink('retweet',id);
 			 }
 			 else
 			 {
@@ -107,20 +116,19 @@ var Chirp = (function(self) {
 	   });	
 	};
 	
-	//undo retweet of a status
+	/**
+	 * Deletes the retweet of the specific tweet done by the authenticated user.
+	 * @param id of the retweet to be undone/delete
+	 */
 	self.undoRetweet = function(id) { 
 		$.ajax({
 		   type: 'POST',
 		   url: 'tweet_operations.php',
 		   data: {statusId : id, action : "undo_retweet"},
 			 success: function(data) {
-				 if(data=="true")
+				 if(data.value)
 				 {
-					var currentTweet = $('#'+id+' .retweeted');
-					currentTweet.removeClass('retweeted');
-					currentTweet.addClass('retweet');
-					currentTweet.text('Retweet');
-					currentTweet.attr('title','Retweet');
+					ChirpUI.swapRetweetLink('retweeted',id);
 					ChirpUI.showPopup("Undo retweet succesfull");
 				 }
 				 else
@@ -132,7 +140,10 @@ var Chirp = (function(self) {
 		   });	
 	};
 	
-	//favorite a tweet
+	/**
+	 * Favorites the specified tweet
+	 * @param id of the tweet to be favorited
+	 */
 	self.favoriteTweet = function(id) { 
 		$.ajax({
 		   type: 'POST',
@@ -140,14 +151,11 @@ var Chirp = (function(self) {
 		   data: {statusId : id, action : "favorite"},
 			 success: function(data)
 			 {
-				 if(data=="true")
+				 if(data.value)
 				 {
-					var currentTweet = $('#'+id+" .favorite");
+					
 					ChirpUI.showPopup('Status favorited');
-					currentTweet.removeClass('favorite');
-					currentTweet.addClass('favorited');
-					currentTweet.text('favorited');
-					currentTweet.attr('title','Undo Favorite');
+					ChirpUI.swapFavoriteLink('favorite',id);
 				 }
 				 else
 				 {
@@ -160,7 +168,10 @@ var Chirp = (function(self) {
 		   });	
 	};
 	
-	//unfavorite a tweet
+	/**
+	 * Undo favorites specified tweet.
+	 * @param id of the tweet to be unfavorited
+	 */
 	self.undoFavorite = function(id) {
 		$.ajax({
 		   type: 'POST',
@@ -168,14 +179,10 @@ var Chirp = (function(self) {
 		   data: {statusId : id, action : "unfavorite"},
 			 success: function(data)
 			 {
-				 if(data=="true")
+				 if(data.value)
 				 {
-					var currentTweet = $('#'+id+" .favorited"); 
 					ChirpUI.showPopup('undo favorite succesfully');
-					currentTweet.removeClass('favorited');
-					currentTweet.addClass('favorite');
-					currentTweet.text('favorite');
-					currentTweet.attr('title','favorite');
+					ChirpUI.swapFavoriteLink('favorited',id);
 				 }
 				 else
 				 {
@@ -188,7 +195,10 @@ var Chirp = (function(self) {
 		});
 	};
 	
-	// update status of the user
+	/**
+	 * Updates the status of the authenticated user.
+	 * @param status/tweet of the updated
+	 */
 	self.updateStatus = function(status) {
 		$.ajax({
 			   type: 'POST',
@@ -196,7 +206,7 @@ var Chirp = (function(self) {
 			   data: {tweet : status, statusId : 1, action : 'update'},
 				 success: function(data)
 				 {
-					 if(data=="true")
+					 if(data.value)
 					 {
 						 // get the home timeline
 						 Chirp.getHomeTimeline();
@@ -217,7 +227,10 @@ var Chirp = (function(self) {
 			 });	
 	};
 	
-	//download tweets
+	/**
+	 * Generates a pdf file with the current tweets visible and prompts the user to download
+	 * 
+	 */
 	self.downloadTweets = function() {
 		var content = $('#tweets').html();
 		$.ajax({
@@ -226,7 +239,7 @@ var Chirp = (function(self) {
 		   data: {'html': content},
 			 success: function(data)
 			 {
-				 if(data=="true")
+				 if(data.value)
 				 {
 					ChirpUI.hideLoader();//hide the loading proces
 					window.location='tweets.pdf'; //down the pdf file
@@ -247,8 +260,12 @@ var Chirp = (function(self) {
 		   });
 	}
 	
-	// convert hash tags, links and usernames clickabel
-	self.parseTwit = function(str) {
+	/**
+	 * Converts text link,hashtags, and usernames to links
+	 * @param tweet text
+	 * returns the converted tweet
+	 */
+	self.parseTweet = function(str) {
 			var data = str;
 			//parse URL
 			var str = data.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g,function(s) {
@@ -262,7 +279,7 @@ var Chirp = (function(self) {
 			//parse hashtag
 			str = str.replace(/[#]+[A-Za-z0-9_]+/g,function(s) {
 				var hashTag = s.replace('#','');
-				return s.link("http://search.twitter.com/search?q="+hashTag);
+				return s.link("http://twitter.com/search?q="+hashTag);
 			});
 			return str;
 		}

@@ -26,7 +26,7 @@ if($request=="followers")
 {
 	$username = $_POST['userName'];
 	//get the latest 10 tweets of the current user from his timline
-	$tweets = $twitteroauth->get("https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&screen_name=".$username."&count=15");
+	$tweets = $twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=".$username."&count=15");
 }
 header('Content-type: application/json; charset=utf-8');
 echo json_encode($tweets);

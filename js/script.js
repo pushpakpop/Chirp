@@ -1,10 +1,11 @@
 // Main js, contains event handlers n all.
 
 
+
+(function(){
+	
 //get handlebars template and compile
-var source   = $("#tweet-template").html();
-var tweetTemplate = Handlebars.compile(source);
-var tweetThread = $('#tweets');
+
 
 
 //get users home timeline when page loads
@@ -36,43 +37,37 @@ followers.click(function () {
 
 //open modal window when user clicks on retweet link and set retweet id
 var deleteLink = $('.delete-tweet');
-var deleteModal = $('#delete-modal');
-var deleteId; //to hold the tweet id to be deleted
 deleteLink.live('click',function() {
-	var tweetId = $(this);
-	deleteId = tweetId.closest('.tweet').attr('id');
-	var tweet = tweetId.closest('.tweet').html();
-	deleteModal.children('.modal-body').html(tweet);
-	deleteModal.modal('show');
+	ChirpUI.showDeleteModal($(this));
 	});
 
 	
 // Delete a status from user's timeline
-var del_button = $('.btn-delete'); // delete button on the delete-modal
-del_button.click(function() {
-	setTimeout(function(){deleteModal.modal('hide');},1500);
-	Chirp.deleteTweet(deleteId);
+var deleteBtn = $('#btn-delete'); // delete button on the delete-modal
+deleteBtn.click(function() {
+	setTimeout(function(){ChirpUI.deleteModal.modal('hide');},1500);
+	console.log(ChirpUI.deleteId);
+	Chirp.deleteTweet(ChirpUI.deleteId);
 			
 });
 
 
 //open modal window when user clicks on retweet link and set retweet id
 var retweetLink = $('.retweet');
-var retweetModal = $('#retweet-modal');
-var retweetId; //to hold the tweet id to be retweeted
 retweetLink.live('click',function() {
-	retweetId = $(this).closest('.tweet').attr('id');
+	ChirpUI.showRetweetModal($(this));
+	/*retweetId = $(this).closest('.tweet').attr('id');
 	var tweet = $(this).closest('.tweet').html();
 	retweetModal.children('.modal-body').html(tweet);
-	retweetModal.modal('show');
+	retweetModal.modal('show');*/
 	});
 	
 	
 // retweet the tweet when user confirms to retweet from the modal window
-var retweet_btn = $('.btn-retweet');
-retweet_btn.click(function() {
-	setTimeout(function(){retweetModal.modal('hide');},1500);
-	Chirp.reTweet(retweetId);
+var retweetBtn = $('#btn-retweet');
+retweetBtn.click(function() {
+	setTimeout(function(){ChirpUI.retweetModal.modal('hide');},1500);
+	Chirp.reTweet(ChirpUI.retweetId);
 	});
 
 
@@ -105,22 +100,22 @@ favorited.live('click',function() {
 	
 //post tweets to the current user's timeline
 var update = $("#update-status");
-var status = document.getElementById('status');
+var status = $('#status');
 update.click(function(){
-		if(status.value=="")
+		if(status.val()=="")
 		{
 			ChirpUI.showPopup("Please provide a status message");
 			status.focus();
 			return false;
 		}
-		if(status.value.length > 140)
+		if(status.val().length > 140)
 		{
 			ChirpUI.showPopup("A tweet can be of maximum 140 characters only.");
 			status.focus();
 			return false;
 		}
 		ChirpUI.showLoader(); //show loading animation
-		Chirp.updateStatus(status.value);
+		Chirp.updateStatus(status.val());
 	}); 
 
 //update remaining characters count as user types
@@ -148,12 +143,17 @@ filter.on("keyup", function(){
 	var temp = $(".tweet-user-list li");
 	temp.each(function () {
 		if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-			$(this).toggleClass("hidden",true);
+			//$(this).toggleClass("hidden",true);
+			$(this).slideUp();
 		}else {
-			$(this).toggleClass("hidden",false);
+			//$(this).toggleClass("hidden",false);
+			$(this).slideDown();
 		}
 	});
 });
+	
+})();
+
 
 
 	
