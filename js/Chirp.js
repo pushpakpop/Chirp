@@ -8,7 +8,8 @@
 var Chirp = (function(self) {
 	
 	self.tweetTemplate = Handlebars.compile($("#tweet-template").html());
-	self.tweetThread = $('#tweets');
+	self.tweetThreadEl = $('#tweets');
+	
 	/**
 	 * Retrives the Home Timeline of the authenticated user.
 	 */
@@ -143,7 +144,7 @@ var Chirp = (function(self) {
 					ChirpUI.showPopup("Undo retweet succesfull");
 				 }
 				 else
-					 ChirpUI.showPopup("Some error occured while undoing of retweet. Please try again.");
+				{ChirpUI.showPopup("Some error occured while undoing of retweet. Please try again.");}
 			 },
 			error: function() {
 				ChirpUI.showPopup("Some error occured while undoing of retweet. Please try again.");

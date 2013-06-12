@@ -15,15 +15,19 @@ var ChirpUI = (function(self){
 	{
 		speed: 400,
 		duration: 2500,
-		maxDuration : 15000,
+		maxDuration : 15000
 	};
+	self.loadingOverlayEl = $("#loading-overlay");
+	self.notificationEl = $("#notification");
+	self.retweetModalEl = $('#retweet-modal');
+	self.deleteModalEl = $('#delete-modal');
 	
 	/**
 	 * Shows the loading.gif 
 	 */
-	self.loadingOverlay = $("#loading-overlay");
+	
 	self.showLoader = function() {
-			self.loadingOverlay.css('display','block');   
+			self.loadingOverlayEl.css('display','block');   
 			setTimeout(function() { ChirpUI.hideLoader()},self.config.maxDuration); // hide loader in 10sec if something goes wrong            
 	};
 	
@@ -31,18 +35,17 @@ var ChirpUI = (function(self){
 	 * Hide the loadinggif
 	 */
 	self.hideLoader = function() {
-		   self.loadingOverlay.css('display','none'); 
+		   self.loadingOverlayEl.css('display','none'); 
 	};
 	
 	/**
 	 * Shows notification
 	 * @param notification message to be shown
 	 */
-	self.notification = $("#notification");
 	self.showPopup = function(message) {
-                        self.notification.find('#notification-msg').text(message);
-                        self.notification.fadeIn(self.config.speed);
-                        setTimeout(function() {self.notification.fadeOut(self.config.speed)},self.config.duration);                  
+                        self.notificationEl.find('#notification-msg').text(message);
+                        self.notificationEl.fadeIn(self.config.speed);
+                        setTimeout(function() {self.notificationEl.fadeOut(self.config.speed)},self.config.duration);                  
      };
 	 
 	 /**
@@ -52,7 +55,7 @@ var ChirpUI = (function(self){
 	 self.loadTweets = function(data) {
 		 	var tweets = data; 
 			var html = Chirp.tweetTemplate({ data : tweets});
-			Chirp.tweetThread.html(html);
+			Chirp.tweetThreadEl.html(html);
 		 };
 		 
 	/**
@@ -63,19 +66,19 @@ var ChirpUI = (function(self){
 			
 			if(type === "retweet")
 			{
-				var currentTweet = $('#'+id+' .retweet');
-				currentTweet.removeClass('retweet');
-				currentTweet.addClass('retweeted');
-				currentTweet.text('Retweeted');
-				currentTweet.attr('title','Undo Retweet');	
+				var currentTweetEl = $('#'+id+' .retweet');
+				currentTweetEl.removeClass('retweet');
+				currentTweetEl.addClass('retweeted');
+				currentTweetEl.text('Retweeted');
+				currentTweetEl.attr('title','Undo Retweet');	
 			}
 			else
 			{
-				var currentTweet = $('#'+id+' .retweeted');
-				currentTweet.removeClass('retweeted');
-				currentTweet.addClass('retweet');
-				currentTweet.text('Retweet');
-				currentTweet.attr('title','Retweet');	
+				var currentTweetEl = $('#'+id+' .retweeted');
+				currentTweetEl.removeClass('retweeted');
+				currentTweetEl.addClass('retweet');
+				currentTweetEl.text('Retweet');
+				currentTweetEl.attr('title','Retweet');	
 			}
 		};
 	
@@ -87,45 +90,42 @@ var ChirpUI = (function(self){
 		
 			if(type === "favorite")
 			{
-				var currentTweet = $('#'+id+" .favorite");
-				currentTweet.removeClass('favorite');
-				currentTweet.addClass('favorited');
-				currentTweet.text('favorited');
-				currentTweet.attr('title','Undo Favorite');
+				var currentTweetEl = $('#'+id+" .favorite");
+				currentTweetEl.removeClass('favorite');
+				currentTweetEl.addClass('favorited');
+				currentTweetEl.text('favorited');
+				currentTweetEl.attr('title','Undo Favorite');
 			}
 			else
 			{
-				var currentTweet = $('#'+id+" .favorited"); 
-				currentTweet.removeClass('favorited');
-				currentTweet.addClass('favorite');
-				currentTweet.text('favorite');
-				currentTweet.attr('title','favorite');
+				var currentTweetEl = $('#'+id+" .favorited"); 
+				currentTweetEl.removeClass('favorited');
+				currentTweetEl.addClass('favorite');
+				currentTweetEl.text('favorite');
+				currentTweetEl.attr('title','favorite');
 			}
 		};
 	 
 	 /**
 	 * Shows the modal containing the tweet that is to be retweeted 
 	 */	
-	 
-	 self.retweetModal = $('#retweet-modal');
 	 self.showRetweetModal = function(obj) {
 			var tweetId = obj
 			self.retweetId = tweetId.closest('.tweet').attr('id');
 			var tweet = obj.closest('.tweet').html();
-			self.retweetModal.children('.modal-body').html(tweet);
-			self.retweetModal.modal('show');
+			self.retweetModalEl.children('.modal-body').html(tweet);
+			self.retweetModalEl.modal('show');
 	 };
 	 
 	 /**
 	 * Shows the modal containing the tweet that is to be deleted
 	 */	
-	 self.deleteModal = $('#delete-modal');
 	 self.showDeleteModal = function(obj) {
 		 	var tweetId = obj;
 			self.deleteId = tweetId.closest('.tweet').attr('id');
 			var tweet = tweetId.closest('.tweet').html();
-			self.deleteModal.children('.modal-body').html(tweet);
-			self.deleteModal.modal('show');
+			self.deleteModalEl.children('.modal-body').html(tweet);
+			self.deleteModalEl.modal('show');
 		 }
 
 	return self;

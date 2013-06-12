@@ -21,9 +21,9 @@ if (typeof exports === 'object') {
 	 */
 	 Handlebars.registerHelper('if_eq', function(context, options) {
 		if (context == options.hash.compare)
-			return options.fn(this);
+			{ return options.fn(this); }
 		else
-			return options.inverse(this);
+			{ return options.inverse(this); }
 	});
 
 	/**
@@ -33,9 +33,9 @@ if (typeof exports === 'object') {
 	Handlebars.registerHelper('getDateTime', function(createdAt) {
 		var rtnDate = moment(createdAt).fromNow();
 		if(rtnDate.indexOf("days") < 0)
-			return rtnDate;
+			{ return rtnDate; }
 		else 
-			return moment(createdAt).fromNow();
+			{ return moment(createdAt).fromNow(); }
 	});
 
 	//handlebar helper for making clickabe links,hashtags,etc
