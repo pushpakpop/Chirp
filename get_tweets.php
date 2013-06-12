@@ -19,7 +19,7 @@ $twitteroauth = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['o
 if($request == "home") 
 {
 	//get the latest 10 tweets of the current user from his home timline
-	$tweets = $twitteroauth->get("https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=".$user_info->screen_name."&count=10&contributor_details=true");
+	$tweets = $twitteroauth->get("https://api.twitter.com/1.1/statuses/home_timeline.json?screen_name=".$user_info->screen_name."&count=15&contributor_details=true");
 }
 
 if($request=="followers")
@@ -29,6 +29,7 @@ if($request=="followers")
 	$tweets = $twitteroauth->get("https://api.twitter.com/1.1/statuses/user_timeline.json?include_entities=true&screen_name=".$username."&count=15");
 }
 header('Content-type: application/json; charset=utf-8');
+
 echo json_encode($tweets);
 
 
