@@ -87,12 +87,12 @@
     //post tweets to the current user's timeline
     $("#update-status").click(function () {
         if (statusEl.val() === "") {
-            ChirpUI.showPopup("Please provide a status message");
+            ChirpUI.showPopup(strings.errorBlankStatus);
             statusEl.focus();
             return false;
         }
         if (statusEl.val().length > 140) {
-            ChirpUI.showPopup("A tweet can be of maximum 140 characters only.");
+            ChirpUI.showPopup(strings.errorMaxCharacters);
             statusEl.focus();
             return false;
         }
@@ -118,10 +118,8 @@
         var filter = $(this).val();
         userTweetEl.each(function () {
             if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-                //$(this).toggleClass("hidden",true);
                 $(this).slideUp();
             } else {
-                //$(this).toggleClass("hidden",false);
                 $(this).slideDown();
             }
         });

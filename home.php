@@ -160,6 +160,7 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
 <script type="text/javascript" src="js/handlebar-helper.js"></script>
 <script type="text/javascript" src="js/Chirp.js"></script>
 <script type="text/javascript" src="js/ChirpUI.js"></script>     
-<script type="text/javascript" src="js/script.js"></script>        
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/strings.js"></script>        
 </body>
 </html>
