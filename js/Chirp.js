@@ -29,7 +29,7 @@ var Chirp = (function (self) {
             },
             error: function () {
                 ChirpUI.hideLoader(); // hide animation on success
-                ChirpUI.showPopup("Some error occured while getting tweets. Please try again.");
+                ChirpUI.showPopup(strings.errorGettingTweet);
             },
             beforeSend: function () {
                 ChirpUI.showLoader(); // hide animation on success
@@ -53,7 +53,7 @@ var Chirp = (function (self) {
 
                 if (data === "unauthorized") {
                     ChirpUI.hideLoader(); // hide animation and show message if user is not authorized to view the required timeline
-                    ChirpUI.showPopup("Not authorized to view this user's timeline");
+                    ChirpUI.showPopup(strings.errorNotAuthorized);
                 } else {
                     //fill the template with data from the json object
                     ChirpUI.loadTweets(data);
@@ -65,7 +65,7 @@ var Chirp = (function (self) {
             },
             error: function () {
                 ChirpUI.hideLoader(); // hide animation on success
-                ChirpUI.showPopup("Some error occured while getting tweets. Please try again.");
+                ChirpUI.showPopup(strings.errorGettingTweet);
             },
             beforeSend: function () {
                 ChirpUI.showLoader(); // hide animation on success
@@ -89,13 +89,13 @@ var Chirp = (function (self) {
             success: function (data) {
                 if (data.status) {
                     $('#' + id).remove();
-                    ChirpUI.showPopup("Status deleted succesfully");
+                    ChirpUI.showPopup(strings.successDelete);
                 } else {
-                    ChirpUI.showPopup("Some error occured while deleting status. Please try again.");
+                    ChirpUI.showPopup(strings.errorDeletingTweet);
                 }
             },
             error: function () {
-                ChirpUI.showPopup("Some error occured while deleting status. Please try again.");
+                ChirpUI.showPopup(strings.errorDeletingTweet);
             }
         });
     };
@@ -114,14 +114,14 @@ var Chirp = (function (self) {
             },
             success: function (data) {
                 if (data.status) {
-                    ChirpUI.showPopup('Status retweeted');
+                    ChirpUI.showPopup(strings.successRetweet);
                     ChirpUI.swapRetweetLink('retweet', id);
                 } else {
-                    ChirpUI.showPopup("Some error occured while retweeting. Please try again.");
+                    ChirpUI.showPopup(strings.errorRetweet);
                 }
             },
             error: function () {
-                ChirpUI.showPopup("Some error occured while retweeting. Please try again.");
+                ChirpUI.showPopup(strings.errorRetweet);
             }
         });
     };
@@ -141,13 +141,13 @@ var Chirp = (function (self) {
             success: function (data) {
                 if (data.status) {
                     ChirpUI.swapRetweetLink('retweeted', id);
-                    ChirpUI.showPopup("Undo retweet succesfull");
+                    ChirpUI.showPopup(strings.successUndoRetweet);
                 } else {
-                    ChirpUI.showPopup("Some error occured while undoing of retweet. Please try again.");
+                    ChirpUI.showPopup(strings.errorUndoRetweet);
                 }
             },
             error: function () {
-                ChirpUI.showPopup("Some error occured while undoing of retweet. Please try again.");
+                ChirpUI.showPopup(strings.errorUndoRetweet);
             }
         });
     };
@@ -167,14 +167,14 @@ var Chirp = (function (self) {
             success: function (data) {
                 if (data.status) {
 
-                    ChirpUI.showPopup('Status favorited');
+                    ChirpUI.showPopup(strings.successFavorite);
                     ChirpUI.swapFavoriteLink('favorite', id);
                 } else {
-                    ChirpUI.showPopup("Some error occured while favoriting the tweet. Please try again.");
+                    ChirpUI.showPopup(strings.errorFavoritingTweet);
                 }
             },
             error: function () {
-                ChirpUI.showPopup("Some error occured while favoriting the tweet. Please try again.");
+                ChirpUI.showPopup(strings.errorFavoritingTweet);
             }
         });
     };
@@ -193,14 +193,14 @@ var Chirp = (function (self) {
             },
             success: function (data) {
                 if (data.status) {
-                    ChirpUI.showPopup('undo favorite succesfully');
+                    ChirpUI.showPopup(strings.successUndoFavorite);
                     ChirpUI.swapFavoriteLink('favorited', id);
                 } else {
-                    ChirpUI.showPopup("Some error occured while favoriting tweet. Please try again.");
+                    ChirpUI.showPopup(strings.errorUnFavoritingTweet);
                 }
             },
             error: function () {
-                ChirpUI.showPopup("Some error occured while favoriting tweet. Please try again.");
+                ChirpUI.showPopup(strings.errorUnFavoritingTweet);
             }
         });
     };
@@ -223,14 +223,15 @@ var Chirp = (function (self) {
                     // get the home timeline
                     Chirp.getHomeTimeline();
                     $('#status').val(''); //empty the tweet text from textarea
+					ChirpUI.showPopup(strings.successStatus);
                 } else {
                     ChirpUI.hideLoader();
-                    ChirpUI.showPopup("Some error occured while updating status. Please try again.");
+                    ChirpUI.showPopup(strings.errorUpdatingStatus);
                 }
             },
             error: function () {
                 ChirpUI.hideLoader();
-                ChirpUI.showPopup("Some error occured while updating status. Please try again.");
+                ChirpUI.showPopup(strings.errorUpdatingStatus);
             },
             beforeSend: function () {
                 ChirpUI.showLoader(); // hide animation on success
@@ -256,12 +257,12 @@ var Chirp = (function (self) {
                     window.location = 'tweets.pdf'; //down the pdf file
                 } else {
                     ChirpUI.hideLoader(); //hide the loading proces
-                    ChirpUI.showPopup("Some error occured while creating pdf. Please try again.");
+                    ChirpUI.showPopup(strings.errorCreatingPdf);
                 }
             },
             error: function () {
                 ChirpUI.hideLoader(); //hide the loading proces
-                ChirpUI.showPopup("Some error occured while creating pdf. Please try again.");
+                ChirpUI.showPopup(strings.errorCreatingPdf);
             },
             beforeSend: function () {
                 ChirpUI.showLoader(); // hide animation on success
