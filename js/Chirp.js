@@ -210,6 +210,7 @@ var Chirp = (function(self) {
 					 {
 						 // get the home timeline
 						 Chirp.getHomeTimeline();
+						 $('#status').val(''); //empty the tweet text from textarea
 					 }
 					 else
 					 {
