@@ -44,11 +44,21 @@ var Chirp = (function(self) {
 				data: {userName:name,type : 'followers'},
 				type: 'POST',
 				success: function(data) {
+					
+					if(data=="unauthorized") 
+					{
+						ChirpUI.hideLoader(); // hide animation and show message if user is not authorized to view the required timeline
+					 	ChirpUI.showPopup("Not authorized to view this user's timeline");
+					}
+					else
+					{
 					//fill the template with data from the json object
 					ChirpUI.loadTweets(data);
 					$("li a").removeClass("active");
 					$('#'+name).addClass('active');
 					ChirpUI.hideLoader(); // hide animation on success
+					}
+					
 					},
 				error: function (){
 					ChirpUI.hideLoader(); // hide animation on success
@@ -56,6 +66,7 @@ var Chirp = (function(self) {
 					},
 				beforeSend: function() {
 					ChirpUI.showLoader(); // hide animation on success
+					
 				}
 			});
 	};
