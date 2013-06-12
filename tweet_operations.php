@@ -7,11 +7,13 @@ require_once('config.php');
 $status_id = $_POST['statusId'];
 $action = $_POST['action'];
 $response = array( 'status' => 'false' );
+
+
 if(!empty($status_id) && !empty($action))
 {
 	if (empty($_SESSION['access_token']) || empty($_SESSION['access_token']['oauth_token']) || empty($_SESSION['access_token']['oauth_token_secret']))
 	{
-			
+		header('Content-type: application/json; charset=utf-8');	
 		echo json_encode($response);
 	}
 	else
@@ -32,11 +34,6 @@ if(!empty($status_id) && !empty($action))
 			if($delete_status->id_str !='') // if status is deleted succesfully;
 			{
 				$response['status'] = 'true';
-				echo json_encode($response);
-			}
-			else
-			{
-				echo json_encode($response);
 			}
 		}
 		
@@ -51,12 +48,8 @@ if(!empty($status_id) && !empty($action))
 			if($retweet_id!='') // if retweet is successfully done, pass the retweet id;
 			{
 				$response['status'] = 'true';
-				echo json_encode($response);
 			}
-			else
-			{
-				echo json_encode($response);
-			}		
+					
 		}
 		
 		//if action is undo retweet
@@ -74,12 +67,8 @@ if(!empty($status_id) && !empty($action))
 			if($undo_retweet->id_str !='') // if undo of retweet is succesfully;
 			{
 				$response['status'] = 'true';
-				echo json_encode($response);
 			}
-			else
-			{
-				echo json_encode($response);
-			}		
+					
 		}
 		
 		//if action is undo retweet
@@ -91,11 +80,6 @@ if(!empty($status_id) && !empty($action))
 			if($favorite->id_str !='') // if status is favorited succesfully;
 			{
 				$response['status'] = 'true';
-				echo json_encode($response);
-			}
-			else
-			{
-				echo json_encode($response);
 			}		
 		}
 		
@@ -108,11 +92,6 @@ if(!empty($status_id) && !empty($action))
 			if($unfavorite->id_str !='') // if status is unfavorited succesfully;
 			{
 				$response['status'] = 'true';
-				echo json_encode($response);
-			}
-			else
-			{
-				echo json_encode($response);
 			}		
 		}
 		
@@ -124,19 +103,18 @@ if(!empty($status_id) && !empty($action))
 			if($update_status->user->id != "") // if status is updated
 				{
 				$response['status'] = 'true';
-				echo json_encode($response);
-			}
-			else
-			{
-				echo json_encode($response);
 			}	
 		}
+		
+		header('Content-type: application/json; charset=utf-8');	
+		echo json_encode($response);
 		
 	}
 	
 }
 else
 {
+	header('Content-type: application/json; charset=utf-8');	
 	echo json_encode($response);
 }
 ?>
