@@ -15,6 +15,7 @@ var ChirpUI = (function(self){
 	{
 		speed: 400,
 		duration: 2500,
+		maxDuration : 10000,
 	};
 	
 	/**
@@ -22,7 +23,8 @@ var ChirpUI = (function(self){
 	 */
 	self.loadingOverlay = $("#loading-overlay");
 	self.showLoader = function() {
-			self.loadingOverlay.css('display','block');                 
+			self.loadingOverlay.css('display','block');   
+			setTimeout(function() { ChirpUI.hideLoader()},maxDuration); // hide loader in 10sec if something goes wrong            
 	};
 	
 	/**
