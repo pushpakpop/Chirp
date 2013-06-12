@@ -78,6 +78,8 @@ $mpdf = new mPDF('c');
 $mpdf->SetDisplayMode('fullpage');
 $mpdf->WriteHTML($html);
 $mpdf->Output("tweets.pdf","F");
-echo "true";
+
+header('Content-type: application/json; charset=utf-8');	
+echo json_encode(array( 'status' => 'false' ));
 
 ?>
