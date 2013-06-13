@@ -17,13 +17,12 @@ print_r($request_token );
 
 switch ($connection->http_code) {
     case 200:
-        /* Build authorize URL and redirect user to Twitter. */
+        //Build authorize URL and redirect user to Twitter.
         $url = $connection->getAuthorizeURL($_SESSION['oauth_token']);
         header('Location: ' . $url); 
         break;
     default:
-        /* Error */
-        //header('Location: error.html'); 
+        //Error
         echo "some error occured";
 }
 

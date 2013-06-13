@@ -34,9 +34,6 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
 <body>
 <!--//-->
 	<div id="wrapper">
-    	<!--<div id="logo">
-        	<h1 title="chirp"><a href="home.php"><img src="images/Chirp.png" alt="Logo"><span>Chirp</span></a></h1>
-        </div>-->
 			<div class="tweet-container">
 				<div class="tweet-north">
                 	<div class="user-details">
