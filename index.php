@@ -29,6 +29,8 @@ h1 {
 	width: 200px;
 	}
 </style>
+<link rel="icon" type="image/png" href="images/Chirp.png" />
+<title>Chirp</title>
 </head>
 
 <body>
