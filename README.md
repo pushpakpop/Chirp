@@ -4,7 +4,7 @@ Chirp
 Chirp is a web applicaiton where user is authenticated with his twitter credentials using OAuth 2.0 and following functionalities are available to him.
 
 <ol>
-<li>View Tweets from him home Timeline.</li>
+<li>View Tweets from his home Timeline.</li>
 <li>View Tweets from his follower's Timeline.</li>
 <li>View his own Tweets.</li>
 <li>Update status on Twitter.</li>
