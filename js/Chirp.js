@@ -58,7 +58,7 @@ var Chirp = (function (self) {
                     //fill the template with data from the json object
                     ChirpUI.loadTweets(data);
                     $("li a").removeClass("active");
-                    $('#' + name).addClass('active');
+                    $('#id-' + name).addClass('active');
                     ChirpUI.hideLoader(); // hide animation on success
                 }
 
@@ -223,7 +223,7 @@ var Chirp = (function (self) {
                     // get the home timeline
                     Chirp.getHomeTimeline();
                     $('#status').val(''); //empty the tweet text from textarea
-					ChirpUI.showPopup(strings.successStatus);
+                    ChirpUI.showPopup(strings.successStatus);
                 } else {
                     ChirpUI.hideLoader();
                     ChirpUI.showPopup(strings.errorUpdatingStatus);
