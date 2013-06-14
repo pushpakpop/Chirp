@@ -1,4 +1,4 @@
 RewriteEngine On
 
-RewriteRule ^home$ home.php
-RewriteRule ^home/#([a-zA-Z0-9_-]+)$ home.php#$1
+RewriteRule ^timeline$ home.php
+RewriteRule ^timeline/#([a-zA-Z0-9_-]+)$ home.php#$1
