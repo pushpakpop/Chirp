@@ -4,7 +4,7 @@ session_start();
 // Check if user has already logged in to the application
 if (isset($_SESSION['access_token']) || isset($_SESSION['access_token']['oauth_token']) || isset($_SESSION['access_token']['oauth_token_secret']))
 {
-    header('Location: home');
+    header('Location: timeline#home');
 }
 ?>
 <!DOCTYPE html>
