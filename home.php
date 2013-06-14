@@ -53,10 +53,10 @@ $friend_list = $twitteroauth->get("https://api.twitter.com/1.1/followers/list.js
 							{
 								foreach ($friend_list->users as $friends) { ?>
 								<li>
-									<a href="javascript:void(0)" id="<?php echo $friends->screen_name?>" class="followers" >
+									<a href="javascript:void(0)" id="id-<?php echo $friends->screen_name?>" class="followers" >
 										<span class="user-img"><img src="<?php echo $friends->profile_image_url?>" alt="profile image" width="40" height="40"></span>
 										<span class="user-title"><?php echo $friends->name?></span>
-										<p class="user-desc">@<?php echo $friends->screen_name?></p>
+										<p class="user-desc">@<span class="screen-name"><?php echo $friends->screen_name?></span></p>
 									</a>
 								</li>
                         <?php }
