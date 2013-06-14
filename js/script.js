@@ -8,27 +8,26 @@
         userTweetEl = $(".tweet-user-list li");
 
 
-    //get users home timeline when page loads
-    Chirp.getHomeTimeline();
-
-
     //get users home timeline when clicks on home
     $('#home').click(function () {
         Chirp.getHomeTimeline();
+        window.location.href.split('#')[0]; //remove hashtag from the URL when user clicks home link
     });
 
 
     // current user's tweets
     $('#my-tweets').click(function () {
-        var uname = $(this).attr('name');
-        Chirp.getUserTimeline(uname);
+        Chirp.getUserTimeline();
+        window.location.hash = "me";
     });
 
 
     //get the followers timeline tweets
     $('.followers').click(function () {
-        var uname = this.id;
+        var uname = $(this).children('p').children('span').text();
+        window.location.hash = uname;
         Chirp.getUserTimeline(uname);
+
     });
 
 
@@ -126,3 +125,22 @@
     });
 
 })();
+
+$(document).ready(function () {
+
+    //get hashtag from the url when the document is ready
+    var currentLocation = window.location.hash.substring(1);
+
+    if (currentLocation === "") //if home page
+    {
+        //get users home timeline when page loads
+        Chirp.getHomeTimeline();
+    } else if (currentLocation === "me") {
+        //get the users own tweets
+        Chirp.getUserTimeline();
+    } else {
+        //get the tweets of the username that is present in the URL hashtag
+        Chirp.getUserTimeline(currentLocation);
+    }
+
+});
