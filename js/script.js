@@ -1,4 +1,24 @@
-// Main js, contains event handlers
+$(document).ready(function () {
+
+    //get hashtag from the url when the document is ready
+    var currentLocation = window.location.hash.substring(1);
+
+    if (currentLocation === "" || currentLocation === "home") //if home page
+    {
+        //get users home timeline when page loads
+        Chirp.getHomeTimeline();
+    } else if (currentLocation === "me") {
+        //get the users own tweets
+        Chirp.getUserTimeline();
+    } else {
+        //get the tweets of the username that is present in the URL hashtag
+        Chirp.getUserTimeline(currentLocation);
+    }
+
+});
+
+
+// contains event handlers
 (function () {
 
     var statusEl = $('#status'),
@@ -11,7 +31,7 @@
     //get users home timeline when clicks on home
     $('#home').click(function () {
         Chirp.getHomeTimeline();
-        window.location.href.split('#')[0]; //remove hashtag from the URL when user clicks home link
+		window.location.hash = "home";
     });
 
 
@@ -125,22 +145,3 @@
     });
 
 })();
-
-$(document).ready(function () {
-
-    //get hashtag from the url when the document is ready
-    var currentLocation = window.location.hash.substring(1);
-
-    if (currentLocation === "") //if home page
-    {
-        //get users home timeline when page loads
-        Chirp.getHomeTimeline();
-    } else if (currentLocation === "me") {
-        //get the users own tweets
-        Chirp.getUserTimeline();
-    } else {
-        //get the tweets of the username that is present in the URL hashtag
-        Chirp.getUserTimeline(currentLocation);
-    }
-
-});
