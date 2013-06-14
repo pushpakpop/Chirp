@@ -27,7 +27,7 @@ unset($_SESSION['oauth_token_secret']);
 // proceed furhter is HTTP response is 200 or else send to error page 
 if (200 == $connection->http_code) {
     $_SESSION['status'] = 'verified';
-    header('Location: home.php');
+    header('Location: home');
 } else {
 //error page
     header('Location: error.html');
