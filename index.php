@@ -1,12 +1,11 @@
 <?php 
 
 session_start();
-//check if the session contains token and secret keys
-if(isset($_SESSION['oauth_token']) && isset($_SESSION['oauth_token_secret']))
+// Check if user has already logged in to the application
+if (isset($_SESSION['access_token']) || isset($_SESSION['access_token']['oauth_token']) || isset($_SESSION['access_token']['oauth_token_secret']))
 {
-header('Location: login.php ');
+    header('Location: home');
 }
-
 ?>
 <!DOCTYPE html>
 <html>
